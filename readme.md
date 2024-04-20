@@ -1,7 +1,9 @@
-# Auto Inject netbird using kyverno clusterpolicy
-    A way to auto-inject netbird using a kyverno clusterpolicy. An init-container was also added to optionally fix local network routes and route to exit-node
+# Auto-Inject netbird using kyverno clusterpolicy
+    A way to auto-inject netbird using a kyverno clusterpolicy. 
+    An init-container was also added to optionally fix local network routes and route to exit-node
 
-    In this example we create a clusterpolicy that acts as an admission control, and when it finds the annotation below in a deployment:
+    In this example we create a clusterpolicy that acts as an admission control.
+    When it finds the annotation below in a deployment:
 
         annotations:
             netbird.io/inject: "true"
