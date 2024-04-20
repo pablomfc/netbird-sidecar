@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: inject-sidecar-netbird-by-annotations-2
+  name: inject-sidecar-netbird-by-annotations
   annotations:
     policies.kyverno.io/title: Inject Sidecar Container netbird  
 spec:
