@@ -20,7 +20,7 @@
     --from-literal=NB_SETUP_KEY='00000000-0000-0000-0000-00000000000' \
     --from-literal=EXTRA_SUBNETS='192.168.0.0/16,172.20.0.0/16'
 
-# Create script for exit-node and local routes
+# Create configmap script for exit-node and local routes
     kubectl create configmap netbird-init -n default --from-file=nb-init.sh
 
 # Create clusterpolicy
