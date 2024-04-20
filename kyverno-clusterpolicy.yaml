@@ -1,0 +1,57 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: inject-sidecar-netbird-by-annotations-2
+  annotations:
+    policies.kyverno.io/title: Inject Sidecar Container netbird  
+spec:
+  rules:
+  - name: inject-sidecar-netbird-by-annotations
+    match:
+      any:
+      - resources:
+          kinds:
+          - Deployment
+    mutate:
+      patchStrategicMerge:
+        spec:
+          template:
+            metadata:
+              annotations:
+                (netbird.io/inject): "true"
+            spec:
+              containers:
+              - name: netbird
+                image: netbirdio/netbird:latest
+                resources: {}
+                envFrom:
+                - secretRef:
+                    name: netbird
+                securityContext:
+                  capabilities:
+                    add:
+                      - NET_ADMIN
+                      - SYS_MODULE
+              initContainers:
+              - name: init-container-netbird
+                envFrom:
+                - secretRef:
+                    name: netbird            
+                image: netbirdio/netbird:latest
+                imagePullPolicy: IfNotPresent
+                command: ["/script/nb-init.sh"]
+                resources: {}
+                securityContext:
+                  capabilities:
+                    add:
+                      - NET_ADMIN
+                      - SYS_MODULE                
+                volumeMounts:
+                      - name: script
+                        mountPath: "/script"
+              volumes:
+                - name: script
+                  configMap:
+                    name: netbird-init
+                    defaultMode: 0500
+
